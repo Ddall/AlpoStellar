@@ -15,6 +15,10 @@
 #define PRESSURE_PIN 2
 #define humidityOFF 36
 
+#define REPEAT_TEMP1_PIN 8
+#define REPEAT_TEMP2_PIN 9
+#define REPEAT_PRESSURE_PIN 10
+
 // CONST DEFINITION
 #define REFRESH_RATE 1000
 
@@ -121,6 +125,12 @@ void loop(){
   delay(100);
   digitalWrite(humidityOFF, 0);
   
+  
+  // REPEAT ANALOGS
+  analogWrite(REPEAT_TEMP1_PIN, analogTemp1);
+  analogWrite(REPEAT_TEMP2_PIN, analogTemp2);
+  analogWrite(REPEAT_PRESSURE_PIN, pressure);
+  
   // REFRESH RATE
   delay(REFRESH_RATE);
 } // END LOOP
@@ -129,3 +139,4 @@ void loop(){
 void reset(){
   digitalWrite(RESET_PIN, HIGH);
 }
+
