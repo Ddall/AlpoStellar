@@ -16,8 +16,7 @@
 #define humidityOFF 36
 
 // CONST DEFINITION
-float refresh_rate = 200;
-long id = 1;
+#define REFRESH_RATE 1000
 
 // VARIABLE DEFINITION
 int hygroTemp = 0;
@@ -79,17 +78,17 @@ void loop(){
    
   // READ HYGRO
   Wire.requestFrom(0x27, 4);    // request 4 bytes from slave device 0x27
-  if(Wire.available()){
+  if(4 <= Wire.available()){
     tmpHygro = Wire.read();
+    tmpHygro = (tmpHygro & 0b00111111) << 8;
     tmpHygro |= Wire.read();
-    int tmpTemp1 = Wire.read(); // receive a byte as character
-    int tmpTemp2 = Wire.read();
+    tmpTemp1 = Wire.read(); // receive a byte as character
+    tmpTemp2 = Wire.read();
     
     // GET DATA
     hygroTemp = (tmpTemp1 << 6) | (tmpTemp2 >> 2);
     hygroTempFloat = float(hygroTemp / (pow(2, 14) - 2) * 165 - 40);
     hygro = float(tmpHygro / (pow(2, 14) - 2) * 100);
-    
   }
 
   // ANALOG SENSORS
@@ -108,7 +107,7 @@ void loop(){
   if (logFile){
     logFile.println(dataString);
     logFile.close();
-	
+
     Serial.println(dataString); 
     
   }else{
@@ -117,7 +116,13 @@ void loop(){
     reset();
   }
   
-  delay(refresh_rate);
+  // RESET HYGRO
+  digitalWrite(humidityOFF, 1);
+  delay(100);
+  digitalWrite(humidityOFF, 0);
+  
+  // REFRESH RATE
+  delay(REFRESH_RATE);
 } // END LOOP
 
 
