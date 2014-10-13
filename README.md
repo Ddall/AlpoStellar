@@ -1,7 +1,8 @@
 AlpoStellar
 ===========
 
-Datalogger for experimental athmospheric balloon
+Arduino based datalogger for high altitude balloon.
+
 This is a project from CLES FACIL: http://cles-facil.fr/
 
 
