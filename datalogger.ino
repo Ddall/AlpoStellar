@@ -15,10 +15,6 @@
 #define PRESSURE_PIN 2
 #define humidityOFF 36
 
-#define REPEAT_TEMP1_PIN 8
-#define REPEAT_TEMP2_PIN 9
-#define REPEAT_PRESSURE_PIN 10
-
 // CONST DEFINITION
 #define REFRESH_RATE 1000
 
@@ -43,11 +39,6 @@ void setup(){
   pinMode(RESET_PIN, OUTPUT);
   digitalWrite(RESET_PIN, LOW);
   
-  // ANALOG SENSORS <<-- USEFULL?
-  // pinMode(TEMP_A_PIN, INPUT);
-  // pinMode(TEMP_B_PIN, INPUT);
-  // pinMode(PRESSURE_PIN, INPUT);
-  
   // HYGRO
   Wire.begin(); // INIT I2C
   pinMode(humidityOFF, OUTPUT);
@@ -71,8 +62,8 @@ void setup(){
   File logFile = SD.open("log.csv", FILE_WRITE);
   if (!logFile){
     Serial.println("Couldn't open log file");
-	return;
-    reset(); // TODO CHANGE TO RESET
+    return;
+
   }
   
 } // END SETUP
@@ -124,12 +115,7 @@ void loop(){
   digitalWrite(humidityOFF, 1);
   delay(100);
   digitalWrite(humidityOFF, 0);
-  
-  
-  // REPEAT ANALOGS
-  analogWrite(REPEAT_TEMP1_PIN, analogTemp1);
-  analogWrite(REPEAT_TEMP2_PIN, analogTemp2);
-  analogWrite(REPEAT_PRESSURE_PIN, pressure);
+
   
   // REFRESH RATE
   delay(REFRESH_RATE);
